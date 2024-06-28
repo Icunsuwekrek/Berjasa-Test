@@ -16,7 +16,7 @@
         </div>
         <div class="card" style="width:100%">
             <div class="card-header">
-                <a href="{{ route('internal.edit') }}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add Internal</a>
+                <a href="{{ route('internal.edit') }}" class="btn btn-success pull-right"><i class="fa-solid fa-gear"></i> Worflow</a>
             </div>
             <div class="card-body">
                 @if (isset($message))

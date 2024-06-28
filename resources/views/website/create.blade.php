@@ -30,21 +30,25 @@
                 {{ csrf_field() }}
                 <div id="forms-container">
                     @foreach ($data as $index => $item)
-                    <div class="form-group row" data-index="{{ $index }}">
-                        <div class="col-md-5">
-                            <label for="level-{{ $index }}" style="font-weight: bold">LEVEL</label>
-                            <input class="form-control" id="level-{{ $index }}" size="16" type="number" name="forms[{{ $index }}][level]"
-                            placeholder="Title of the about" value="{{ $item->level }}" required>
+                        <div class="form-group row" data-index="{{ $index }}">
+                            <input type="hidden" name="forms[{{ $index }}][id]" value="{{ $item->id }}">
+                            <div class="col-md-5">
+                                <label for="level-{{ $index }}" style="font-weight: bold">LEVEL</label>
+                                <input class="form-control" id="level-{{ $index }}" size="16" type="number"
+                                    name="forms[{{ $index }}][level]" placeholder="Level" value="{{ $item->level }}"
+                                    required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="title_name-{{ $index }}" style="font-weight: bold">ASSIGNED TITLE</label>
+                                <input class="form-control" id="title_name-{{ $index }}" size="16"
+                                    type="text" name="forms[{{ $index }}][title_name]"
+                                    placeholder="Assigned Title" value="{{ $item->title_name }}" required>
+
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <span class="remove-btn" onclick="removeForm(this)">&#10006;</span>
+                            </div>
                         </div>
-                        <div class="col-md-5">
-                            <label for="title_name-{{ $index }}" style="font-weight: bold">ASSIGNED TITLE</label>
-                            <input class="form-control" id="title_name-{{ $index }}" size="16" type="text" name="forms[{{ $index }}][title_name]"
-                                placeholder="Title of the about" value="{{ $item->title_name }}" required>
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <span class="remove-btn" onclick="removeForm(this)">&#10006;</span>
-                        </div>
-                    </div>
                     @endforeach
                 </div>
                 <button type="button" class="btn btn-primary" id="add-form-btn">Add Form</button>
@@ -52,7 +56,7 @@
             </form>
         </div>
 
-       
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script>
             let formIndex = {{ count($data) }};
 
@@ -81,15 +85,22 @@
                 $(element).closest('.form-group').remove();
             }
 
-            // Optional: If you want to allow inline editing
-            $('#forms-container').on('change', '.form-group', function() {
+            // If you want to handle inline editing
+            $('#forms-container').on('click', '.form-group', function() {
                 let index = $(this).data('index');
                 let levelInput = $(this).find(`#level-${index}`);
                 let titleNameInput = $(this).find(`#title_name-${index}`);
 
                 // Add your inline editing logic here
-                // Example: Open a modal to edit or make the input fields editable
-                // You could use a modal or other UI elements to handle this
+                // For example, you could add a modal or inline editor
+                // Here's a simple example:
+                if (!levelInput.is('[readonly]') && !titleNameInput.is('[readonly]')) {
+                    levelInput.prop('readonly', false);
+                    titleNameInput.prop('readonly', false);
+                } else {
+                    levelInput.prop('readonly', true);
+                    titleNameInput.prop('readonly', true);
+                }
             });
         </script>
 

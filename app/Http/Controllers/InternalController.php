@@ -11,7 +11,7 @@ class InternalController extends Controller
     public function index()
     {
         // Mengambil semua data diskon yang diurutkan berdasarkan 'id' secara ascending
-        $internal = Internal::all();
+        $internal = Internal::orderBy('level', 'asc')->get();
 
         // Memeriksa apakah koleksi diskon kosong
         // if ($data['models']->isEmpty()) {
@@ -115,28 +115,37 @@ class InternalController extends Controller
         return view('website.create', compact('data'));
     }
 
-    public function update(Request $request, Internal $internal)
+    public function update(Request $request)
     {
-        // dd($request->all());
+        // Validate the request
         $request->validate([
-            'forms.*.level' => 'required|unique:internals,level',
-            'forms.*.title_name' => 'required'
+            'forms.*.level' => 'required|integer',
+            'forms.*.title_name' => 'required|string'
         ]);
-        // dd($request->forms);
+    
         foreach ($request->forms as $form) {
-            dd($form);
-            $isInternalExist = Internal::where('level', $form['level'])->first();
-
-            if ($isInternalExist) {
-                $isInternalExist->update($request->only('level', 'title_name'));
+            // Check if the form has an ID (means it's an existing record)
+            if (isset($form['id']) && $form['id']) {
+                // Find the existing record
+                $internal = Internal::find($form['id']);
+                
+                if ($internal) {
+                    // Update the existing record
+                    $internal->update([
+                        'level' => $form['level'],
+                        'title_name' => $form['title_name']
+                    ]);
+                }
             } else {
+                // Create a new record
                 Internal::create([
                     'level' => $form['level'],
                     'title_name' => $form['title_name']
                 ]);
             }
         }
-
+    
         return redirect()->route('internal')->with('success', 'Forms submitted successfully.');
     }
+    
 }
