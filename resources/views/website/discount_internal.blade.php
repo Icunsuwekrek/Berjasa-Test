@@ -33,7 +33,7 @@
                             <th style="font-size: 15px">Balance Incentive</th>
                             <th style="font-size: 15px">Total Discount</th>
                             <th style="font-size: 15px">Total Adjustment</th>
-                            <th>Action</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -46,16 +46,7 @@
                                 <td><span>{!! $model->balance_incentive !!}</span></td>
                                 <td><span>{!! $model->total_discount_fix !!}</span></td>
                                 <td><span>{!! $model->adjusment !!}</span></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-warning dropdown-toggle" type="button"
-                                            data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">Action</button>
-                                        <div class="dropdown-menu" style="position: absolute;">
-                                            {{-- <a class="dropdown-item" href="{{ route('website.detail_discount ', $model->id) }}">Detail</a> --}}
-                                        </div>
-                                    </div>
-                                </td>
+                         
                             </tr>
                         @endforeach
                         @if ($discounts->isEmpty())

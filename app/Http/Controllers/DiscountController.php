@@ -17,9 +17,11 @@ class DiscountController extends Controller
     $discounts = Discount::all();
     $discounts_graph = [];
     $discounts_label = [];
+    $target_graph = [];
+    $target_label= [];
 
     $totalDiscountFixSum = 0;
-
+    $totalTargetFixSum = 0;
     $count = $discounts->count();
 
     // Iterate over each discount and calculate the custom fields
@@ -29,6 +31,7 @@ class DiscountController extends Controller
       $fourBudgetPromotion = (float) ($discount->four_budget_promotion ?? 0);
       $totalBalanceIncentive = (float) ($discount->total_balance_incentive ?? 0);
       $adjusmentHero = (float) ($discount->adjusment_hero ?? 0);
+      $targetJune = (float) ($discount->target_june ?? 0);
 
       // Initialize additional fields with default values
       $discount->adjustment_incentive = 0;
@@ -72,10 +75,21 @@ class DiscountController extends Controller
       array_push($discounts_label, $discount->total_discount_fix);
 
       $totalDiscountFixSum += $discount->total_discount_fix;
+    // Format the targetJune value
+    $targetJuneFormatted = number_format($targetJune, 0, ',', '.');
+
+      //calculate discount total
+      array_push($target_graph, $discount->target_june);
+      array_push($target_label, $discount->target_june);
+
+      $totalTargetFixSum +=$discount->target_june;
+      $totalTargetFixSumFormatted = number_format($totalTargetFixSum, 0, ',', '.');
+
     }
+    // dd($totalTargetFixSum);
     $discountRate = $count > 0 ? round($totalDiscountFixSum / $count, 2) : 0;
 
-    return view('website.discount', compact('discounts', 'discountRate', 'discounts_graph', 'discounts_label'));
+    return view('website.discount', compact('discounts', 'discountRate', 'discounts_graph', 'discounts_label', 'totalTargetFixSumFormatted', 'target_graph', 'target_label'));
   }
 
   public function create()
@@ -108,6 +122,7 @@ class DiscountController extends Controller
   public function show($id)
   {
     $data = Discount::where('id', $id)->first();
-    return view('website.detail', compact('$data'));
+    // dd($data);
+    return view('website.detail_discount', compact('data'));
   }
 }

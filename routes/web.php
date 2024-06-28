@@ -21,7 +21,7 @@ Route::put('/', [InternalController::class, 'update'])->name('internal.update');
 Route::get('/discount-internal', [InternalController::class, 'show'])->name('discount.internal');
 
 Route::get('/discount', [DiscountController::class, 'index'])->name('discount');
-Route::get('/discount/{$id}', [DiscountController::class, 'show'])->name('discount.show');
+Route::get('/detail-discount/{id}', [DiscountController::class, 'show'])->name('discountShow');
 Route::get('/exportdiscount', [DiscountController::class, 'export'])->name('exportdiscount');
 Route::post('/importdiscount', [DiscountController::class, 'import'])->name('importdiscount');
 

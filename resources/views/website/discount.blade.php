@@ -79,7 +79,7 @@
 
                     <div
                         style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:4px 12px">
-                        <h5 style="font-size: 24px">{{ $discountRate }}%</h5>
+                        <h5 style="font-size: 24px">Rp {{$totalTargetFixSumFormatted}}JT</h5>
                         <p>{{ $discounts->count() }} Documents</p>
                     </div>
 
@@ -102,6 +102,7 @@
                             <th style="font-size: 15px; width:70px; border-bottom:none;">Month</th>
                             <th style="font-size: 15px; border-bottom:none;">Target</th>
                             <th style="font-size: 15px; border-bottom:none;">Balance Incentive</th>
+                            <th style="font-size: 15px; border-bottom:none;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,6 +113,10 @@
                                 <td><span>{!! $model->month !!}</span></td>
                                 <td><span>Rp {!! $model->target_june !!}</span></td>
                                 <td><span>Rp {!! $model->balance_incentive !!}</span></td>
+                                <td>
+                                    <a class="btn btn-warning" href="{{ route('discountShow', $model->id) }}">Detail</a>
+
+                                </td>
                             </tr>
                         @endforeach
                         @if ($discounts->isEmpty())
@@ -194,7 +199,7 @@
                     text: null // Menghapus judul
                 },
                 xAxis: {
-                    categories: @json($discounts_label),
+                    categories: @json($target_label),
                     labels: {
                         enabled: true // Menyembunyikan label sumbu X
                     },
